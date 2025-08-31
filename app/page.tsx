@@ -3,6 +3,134 @@ import Image from "next/image";
 export default function Home() {
   return (
     <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
+      {/* Font demonstration */}
+      <div className="row-start-2 w-full max-w-2xl mb-8 p-6 bg-gray-50 dark:bg-gray-900 rounded-lg">
+        <h2 className="text-2xl font-bold mb-4 text-center">
+          Tajawal Font Demonstration
+        </h2>
+        <div className="space-y-2 text-center">
+          <p className="font-light text-lg">
+            Light (300) - This is Tajawal Light
+          </p>
+          <p className="font-normal text-lg">
+            Regular (400) - This is Tajawal Regular
+          </p>
+          <p className="font-medium text-lg">
+            Medium (500) - This is Tajawal Medium
+          </p>
+          <p className="font-bold text-lg">Bold (700) - This is Tajawal Bold</p>
+          <p className="font-extrabold text-lg">
+            Extra Bold (800) - This is Tajawal Extra Bold
+          </p>
+          <p className="font-black text-lg">
+            Black (900) - This is Tajawal Black
+          </p>
+        </div>
+      </div>
+
+      {/* Color demonstration */}
+      <div className="row-start-2 w-full max-w-4xl mb-8 p-6 bg-gray-50 dark:bg-gray-900 rounded-lg">
+        <h2 className="text-2xl font-bold mb-6 text-center">
+          Complete Color Palette Demonstration
+        </h2>
+
+        {/* Primary Colors */}
+        <div className="mb-8">
+          <h3 className="text-lg font-semibold mb-4 text-center">
+            Primary Colors
+          </h3>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div className="text-center">
+              <div className="w-20 h-20 bg-primary rounded-lg mx-auto mb-2 flex items-center justify-center text-white font-bold text-sm">
+                Primary
+              </div>
+              <p className="text-xs text-muted-foreground">#197BBD</p>
+            </div>
+            <div className="text-center">
+              <div className="w-20 h-20 bg-secondary rounded-lg mx-auto mb-2 flex items-center justify-center text-white font-bold text-sm">
+                Secondary
+              </div>
+              <p className="text-xs text-muted-foreground">#10B981</p>
+            </div>
+            <div className="text-center">
+              <div className="w-20 h-20 bg-accent rounded-lg mx-auto mb-2 flex items-center justify-center text-white font-bold text-sm">
+                Accent
+              </div>
+              <p className="text-xs text-muted-foreground">#197BBD</p>
+            </div>
+            <div className="text-center">
+              <div className="w-20 h-20 bg-destructive rounded-lg mx-auto mb-2 flex items-center justify-center text-white font-bold text-sm">
+                Destructive
+              </div>
+              <p className="text-xs text-muted-foreground">#EF4444</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Gray Scale */}
+        <div className="mb-8">
+          <h3 className="text-lg font-semibold mb-4 text-center">Gray Scale</h3>
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-[#0D0D0D] rounded-lg mx-auto mb-2 flex items-center justify-center text-white font-bold text-xs">
+                Black
+              </div>
+              <p className="text-xs text-muted-foreground">#0D0D0D</p>
+            </div>
+            <div className="text-center">
+              <div className="w-16 h-16 bg-[#505050] rounded-lg mx-auto mb-2 flex items-center justify-center text-white font-bold text-xs">
+                Gray
+              </div>
+              <p className="text-xs text-muted-foreground">#505050</p>
+            </div>
+            <div className="text-center">
+              <div className="w-16 h-16 bg-[#777777] rounded-lg mx-auto mb-2 flex items-center justify-center text-white font-bold text-xs">
+                Light Gray
+              </div>
+              <p className="text-xs text-muted-foreground">#777777</p>
+            </div>
+            <div className="text-center">
+              <div className="w-16 h-16 bg-[#E5E7EB] rounded-lg mx-auto mb-2 flex items-center justify-center text-foreground font-bold text-xs">
+                Border
+              </div>
+              <p className="text-xs text-muted-foreground">#E5E7EB</p>
+            </div>
+            <div className="text-center">
+              <div className="w-16 h-16 bg-[#F9FAFB] rounded-lg mx-auto mb-2 flex items-center justify-center text-foreground font-bold text-xs border border-border">
+                Lightest
+              </div>
+              <p className="text-xs text-muted-foreground">#F9FAFB</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Color Usage Examples */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold mb-4 text-center">
+            Color Usage Examples
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <p className="text-primary font-medium">Primary text color</p>
+              <p className="text-secondary font-medium">Secondary text color</p>
+              <p className="text-muted-foreground">Muted text color</p>
+              <p className="text-accent font-medium">Accent text color</p>
+            </div>
+            <div className="space-y-2">
+              <button className="bg-primary text-primary-foreground px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors w-full">
+                Primary Button
+              </button>
+              <button className="bg-secondary text-secondary-foreground px-4 py-2 rounded-lg hover:bg-secondary/90 transition-colors w-full">
+                Secondary Button
+              </button>
+              <button className="bg-accent text-accent-foreground px-4 py-2 rounded-lg hover:bg-accent/90 transition-colors w-full">
+                Accent Button
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
         <Image
           className="dark:invert"
