@@ -16,11 +16,18 @@
     "flexiblePayment": "Flexible and Easy Payment",
     "flexiblePaymentDesc": "Our system ensures the protection of your data with the latest encryption technologies, so you can register and pay with confidence and reassurance.",
     "heroTitle1": "Plans that suit your needs with a system",
-    "heroTitle2": "Buy now and pay later for companies",
-    "heroTitle3": "and institutions",
+    "heroTitle2": "Buy now and pay later",
+    "heroTitle3": "for companies and institutions",
     "heroDescription1": "Divide your bill into 4 easy payments without complications",
     "heroDescription2": "between wholesalers and retailers, where we enable business owners",
     "heroDescription3": "to increase their purchasing power and pay in 4 installments",
     "heroDescription4": "easy and convenient",
-    "startNow": "Start Now"
+    "startNow": "Start Now",
+    "howItWorks": "How do flows work?",
+    "step1": "Merchant Registration",
+    "step2": "Submit Installment Request",
+    "step3": "Customer Registration",
+    "step4": "Customer Review and Approval",
+    "step5": "Platform Payment to Merchant",
+    "step6": "Customer Installment to Platform"
 }
