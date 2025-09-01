@@ -107,9 +107,8 @@ export default function ComplainModal({ isOpen, onClose }: ComplainModalProps) {
               type="submit"
               className="w-full bg-gradient-to-t from-blue-800 to-blue-600 hover:from-blue-900 hover:to-blue-700 text-white py-3 rounded-lg font-medium flex items-center justify-center gap-2"
             >
-              {t("sendProblem")}
-              &nbsp;
               <ArrowRight className="w-4 h-4" />
+              {t("sendProblem")}
             </Button>
           </div>
         </form>

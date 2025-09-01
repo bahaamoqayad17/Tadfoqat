@@ -13,9 +13,11 @@ import {
 import { Button } from "@/components/ui/button";
 import ComplainModal from "./modals/ComplainModal";
 import ContactModal from "./modals/ContactModal";
+import { useRouter } from "next/navigation";
 
 export default function Navbar() {
   const t = useTranslations();
+  const router = useRouter();
   const [isComplainModalOpen, setIsComplainModalOpen] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
@@ -95,6 +97,7 @@ export default function Navbar() {
           <Button
             className="bg-gradient-to-t from-[#153885] to-primary text-white rounded-lg font-medium text-sm lg:text-base transition-all duration-200 shadow-md hover:shadow-lg"
             size="lg"
+            onClick={() => router.push("/login")}
           >
             <ArrowRight className="h-4 w-4" />
 
