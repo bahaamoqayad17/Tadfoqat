@@ -25,22 +25,10 @@ export default function Hero() {
       {/* Content Container */}
       <div className="container mx-auto relative z-10 px-4 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Left Side - Hero Image */}
-          <div className="order-2 lg:order-1 flex justify-center lg:justify-start">
-            <div className="relative w-full max-w-lg lg:max-w-none">
-              <Image
-                src="/HeroImage.png"
-                alt="Hero Illustration"
-                width={600}
-                height={600}
-                className="w-full h-auto"
-                priority
-              />
-            </div>
-          </div>
+          {/* Right Side - Hero Text */}
 
           {/* Right Side - Text Content */}
-          <div className="order-1 lg:order-2 text-right rtl:text-right">
+          <div className="">
             {/* Main Heading */}
             <div className="mb-8">
               <h1 className="text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 mb-4 leading-tight">
@@ -67,15 +55,28 @@ export default function Hero() {
             </div>
 
             {/* Call to Action Button */}
-            <div className="flex justify-end">
+            <div className="flex">
               <Button
                 className="bg-gradient-to-t from-[#153885] to-primary text-white rounded-lg font-medium text-sm lg:text-base transition-all duration-200 shadow-md hover:shadow-lg"
                 size="lg"
               >
-                {t("startNow")}
-                &nbsp;
                 <ArrowRight className="h-4 w-4" />
+                {t("startNow")}
               </Button>
+            </div>
+          </div>
+
+          {/* Left Side - Hero Image */}
+          <div className="flex justify-center lg:justify-start">
+            <div className="relative w-full max-w-lg lg:max-w-none">
+              <Image
+                src="/HeroImage.png"
+                alt="Hero Illustration"
+                width={600}
+                height={600}
+                className="w-full h-auto"
+                priority
+              />
             </div>
           </div>
         </div>

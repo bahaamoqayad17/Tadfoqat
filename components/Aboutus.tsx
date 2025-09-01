@@ -15,18 +15,6 @@ export default function Aboutus() {
       </div>
       <div className="container mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left Side - Image */}
-          <div className="relative">
-            <Image
-              src="/About.png"
-              alt="About Us"
-              width={600}
-              height={400}
-              className="w-full h-auto"
-              priority
-            />
-          </div>
-
           {/* Right Side - Content */}
           <div className="space-y-8">
             {/* Description */}
@@ -37,7 +25,7 @@ export default function Aboutus() {
             </div>
 
             {/* Contact Button */}
-            <div className="flex justify-end">
+            <div className="flex">
               <Button
                 className="bg-gradient-to-t from-[#153885] to-primary text-white rounded-lg font-medium text-sm lg:text-base transition-all duration-200 shadow-md hover:shadow-lg"
                 size="lg"
@@ -47,6 +35,17 @@ export default function Aboutus() {
                 <Phone className="h-4 w-4" />
               </Button>
             </div>
+          </div>
+          {/* Left Side - Image */}
+          <div className="relative">
+            <Image
+              src="/About.png"
+              alt="About Us"
+              width={600}
+              height={400}
+              className="w-full h-auto"
+              priority
+            />
           </div>
         </div>
       </div>

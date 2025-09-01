@@ -29,7 +29,7 @@ export default function Footer() {
 
         {/* Social Media Icons */}
         <div className="mb-12">
-          <div className="flex justify-center items-center space-x-4 rtl:space-x-reverse">
+          <div className="flex justify-center items-center space-x-4">
             {/* Twitter/X */}
             <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center hover:bg-white/90 transition-colors duration-200 cursor-pointer">
               <Twitter className="w-6 h-6 text-gray-800" />

@@ -32,5 +32,16 @@
     "step6": "Customer Installment to Platform",
     "whoWeAre": "Who We Are",
     "aboutUsDescription": "We help clients get products on the system without the need to divide payments into 4 payments and without complications between wholesale and retail trade where business owners can increase their purchasing and payment capacity in an easy and convenient way on 4 payments.",
-    "contactUsBtn": "Contact Us"
+    "contactUsBtn": "Contact Us",
+    "modalTitle": "We care about the smallest details to solve all your problems",
+    "modalSubtitle": "Please fill in the fields and send the problem",
+    "personName": "Person's Name",
+    "emailAddress": "Email Address",
+    "problemType": "Problem Type",
+    "problemDescription": "Problem Description",
+    "sendProblem": "Send Problem",
+    "contactModalTitle": "Let's stay in touch and answer your inquiries first and foremost. A Tadfoqat team works around the clock for your service.",
+    "contactModalSubtitle": "Choose a contact method that suits you",
+    "email": "Email",
+    "whatsapp": "WhatsApp"
 }

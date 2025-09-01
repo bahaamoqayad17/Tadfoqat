@@ -10,11 +10,12 @@ export default function WhyUs() {
 
   const features = [
     {
-      icon: <PeopleIcon />,
-      title: t("availableAnyTime"),
-      description: t("availableAnyTimeDesc"),
-      gradient: "from-[#FEB47B] to-[#FF7E5F]",
+      icon: <PaymentIcon />,
+      title: t("flexiblePayment"),
+      description: t("flexiblePaymentDesc"),
+      gradient: "from-[#56C1E2] to-[#2050A3]",
     },
+
     {
       icon: <CloudIcon />,
       title: t("secureRegistration"),
@@ -22,10 +23,10 @@ export default function WhyUs() {
       gradient: "from-[#38EF7D] to-[#11998E]",
     },
     {
-      icon: <PaymentIcon />,
-      title: t("flexiblePayment"),
-      description: t("flexiblePaymentDesc"),
-      gradient: "from-[#56C1E2] to-[#2050A3]",
+      icon: <PeopleIcon />,
+      title: t("availableAnyTime"),
+      description: t("availableAnyTimeDesc"),
+      gradient: "from-[#FEB47B] to-[#FF7E5F]",
     },
   ];
 

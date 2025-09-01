@@ -27,7 +27,7 @@ export default function HowItWorks() {
         {/* Process Flow Diagram */}
         <div className="">
           {/* Top Row - 3 Steps */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-20">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-20 md:-translate-x-16">
             {topSteps.map((step) => (
               <div key={step.id}>
                 <div className="bg-white border-1 border-gray-200 max-w-sm rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 flex gap-2 justify-center items-center">
@@ -51,7 +51,7 @@ export default function HowItWorks() {
             />
           </div>
           {/* Bottom Row - 3 Steps */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-20 md:translate-x-16">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-20">
             {bottomSteps.map((step) => (
               <div key={step.id} className="text-center">
                 <div className="bg-white border-1 border-gray-200 max-w-sm rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 flex gap-2 justify-center items-center">
@@ -72,10 +72,7 @@ export default function HowItWorks() {
         <div className="lg:hidden mt-12">
           <div className="space-y-8">
             {[...topSteps, ...bottomSteps].map((step, index) => (
-              <div
-                key={step.id}
-                className="flex items-center space-x-4 rtl:space-x-reverse"
-              >
+              <div key={step.id} className="flex items-center space-x-4">
                 {/* Step Number */}
                 <div className="w-12 h-12 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
                   {step.id}
