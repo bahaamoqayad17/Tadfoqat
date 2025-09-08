@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { DataTable } from "@/components/ui/data-table";
 import { createInvoiceColumns, Invoice } from "@/components/invoice-columns";
+import ComplaintForm from "@/components/ComplaintForm";
 import {
   Plus,
   Search,
@@ -247,18 +248,7 @@ export default function MerchantClient() {
             )}
 
             {/* Complaints Content */}
-            {activeTab === "complaints" && (
-              <Card>
-                <CardHeader>
-                  <CardTitle>{t("complaints")}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">
-                    Manage customer complaints and support requests here.
-                  </p>
-                </CardContent>
-              </Card>
-            )}
+            {activeTab === "complaints" && <ComplaintForm />}
           </div>
 
           {/* Sidebar Navigation - Right Side (Always visible) */}

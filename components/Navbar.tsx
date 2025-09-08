@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { ArrowRight } from "lucide-react";
 import {
   NavigationMenu,
@@ -14,10 +14,18 @@ import { Button } from "@/components/ui/button";
 import ComplainModal from "./modals/ComplainModal";
 import ContactModal from "./modals/ContactModal";
 import { useRouter } from "next/navigation";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function Navbar() {
   const t = useTranslations();
   const router = useRouter();
+  const locale = useLocale();
   const [isComplainModalOpen, setIsComplainModalOpen] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
@@ -93,7 +101,22 @@ export default function Navbar() {
           </NavigationMenu>
         </div>
 
-        <div className="">
+        <div className="flex items-center space-x-4">
+          {/* a select option to change language */}
+          <Select
+            onValueChange={(value) => {
+              router.push(`/${value}`);
+            }}
+            defaultValue={locale}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Language" className="text-gray-700" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="en">English</SelectItem>
+              <SelectItem value="ar">العربية</SelectItem>
+            </SelectContent>
+          </Select>
           <Button
             className="bg-gradient-to-t from-[#153885] to-primary text-white rounded-lg font-medium text-sm lg:text-base transition-all duration-200 shadow-md hover:shadow-lg"
             size="lg"

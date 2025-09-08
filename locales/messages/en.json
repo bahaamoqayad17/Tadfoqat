@@ -90,5 +90,7 @@
     "completed": "Completed",
     "returned": "Returned",
     "retrieve": "Retrieve",
-    "share": "Share"
+    "share": "Share",
+    "problemTitle": "Problem Title",
+    "sendComplaint": "Send Complaint"
 }

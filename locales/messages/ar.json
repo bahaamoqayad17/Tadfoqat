@@ -90,5 +90,7 @@
     "completed": "تمت",
     "returned": "مسترجعة",
     "retrieve": "استرجاع",
-    "share": "مشاركة"
+    "share": "مشاركة",
+    "problemTitle": "عنوان المشكلة",
+    "sendComplaint": "إرسال شكوى"
 }
