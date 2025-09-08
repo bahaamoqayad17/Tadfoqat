@@ -92,5 +92,16 @@
     "retrieve": "Retrieve",
     "share": "Share",
     "problemTitle": "Problem Title",
-    "sendComplaint": "Send Complaint"
+    "sendComplaint": "Send Complaint",
+    "addInvoiceModalTitle": "Fill in the fields below to add an invoice for the customer",
+    "itemNumber": "Item Number",
+    "itemName": "Item Name",
+    "price": "Price",
+    "quantity": "Quantity",
+    "optional": "Optional",
+    "required": "Required",
+    "addAnotherProduct": "Add another product",
+    "totalAmount": "Total Amount",
+    "addInvoice": "Add Invoice",
+    "cancel": "Cancel"
 }

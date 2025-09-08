@@ -92,5 +92,16 @@
     "retrieve": "استرجاع",
     "share": "مشاركة",
     "problemTitle": "عنوان المشكلة",
-    "sendComplaint": "إرسال شكوى"
+    "sendComplaint": "إرسال شكوى",
+    "addInvoiceModalTitle": "قم بتعبئة الحقول ادناه لاضافة فاتورة تخص العميل",
+    "itemNumber": "رقم الصنف",
+    "itemName": "اسم الصنف",
+    "price": "سعره",
+    "quantity": "كميته",
+    "optional": "اختياري",
+    "required": "اجباري",
+    "addAnotherProduct": "اضافة منتج اخر",
+    "totalAmount": "اجمالي المبلغ",
+    "addInvoice": "اضافة فاتورة",
+    "cancel": "الغاء"
 }

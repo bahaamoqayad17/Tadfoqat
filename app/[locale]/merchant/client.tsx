@@ -8,17 +8,19 @@ import { Input } from "@/components/ui/input";
 import { DataTable } from "@/components/ui/data-table";
 import { createInvoiceColumns, Invoice } from "@/components/invoice-columns";
 import ComplaintForm from "@/components/ComplaintForm";
+import AddInvoiceModal from "@/components/modals/AddInvoiceModal";
 import {
   Plus,
   Search,
   ChevronDown,
   ArrowRight,
-  Share2,
   Grid3X3,
   Phone,
   FileText,
   User,
+  LogOut,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 // Mock data for invoices
 const mockInvoices: Invoice[] = [
@@ -59,7 +61,8 @@ export default function MerchantClient() {
   const [activeTab, setActiveTab] = useState<TabType>("dashboard");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCustomer, setSelectedCustomer] = useState("");
-
+  const [isAddInvoiceModalOpen, setIsAddInvoiceModalOpen] = useState(false);
+  const router = useRouter();
   // Create columns for the DataTable
   const columns = createInvoiceColumns(t);
 
@@ -77,31 +80,35 @@ export default function MerchantClient() {
           {/* User Profile Card */}
           <Card className="">
             <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                {/* User Info */}
-                <div className="flex items-center gap-4">
+              {/* User Info */}
+              <div className="flex items-center gap-4">
+                <div className="flex justify-between items-center w-full mb-4">
                   <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
                     <User className="w-6 h-6 text-white" />
                   </div>
-                  <div className="text-right">
+
+                  <div className="flex flex-col">
                     <h2 className="text-lg font-semibold">شهد الحمامي</h2>
                     <p className="text-sm text-muted-foreground">
                       {t("informationSecurityEngineer")}
                     </p>
-                    <p className="text-sm">shahedhamami1@gmail.com</p>
-                    <p className="text-sm">+972567040582</p>
-                    <p className="text-sm">
-                      {t("techCompanyForMobileTrading")}
-                    </p>
-                    <p className="text-sm">سجل تجاري : 000000000000</p>
                   </div>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => router.push("/login")}
+                  >
+                    <LogOut className="w-4 h-4" />
+                  </Button>
                 </div>
-
-                {/* Share Button */}
-                <Button variant="ghost" size="sm">
-                  <Share2 className="w-4 h-4" />
-                </Button>
               </div>
+              <div className="">
+                <p className="text-sm">shahedhamami1@gmail.com</p>
+                <p className="text-sm">+972567040582</p>
+                <p className="text-sm">{t("techCompanyForMobileTrading")}</p>
+                <p className="text-sm">سجل تجاري : 000000000000</p>
+              </div>
+              {/* Share Button */}
             </CardContent>
           </Card>
 
@@ -154,7 +161,10 @@ export default function MerchantClient() {
           </Card>
 
           {/* Add Invoice Card */}
-          <Card className="border-2 border-dashed border-gray-300 hover:border-primary transition-colors cursor-pointer">
+          <Card
+            className="border-2 border-dashed border-gray-300 hover:border-primary transition-colors cursor-pointer"
+            onClick={() => setIsAddInvoiceModalOpen(true)}
+          >
             <CardContent className="flex flex-col items-center justify-center py-8">
               <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mb-4">
                 <Plus className="w-8 h-8 text-white" />
@@ -253,6 +263,12 @@ export default function MerchantClient() {
 
           {/* Sidebar Navigation - Right Side (Always visible) */}
         </div>
+
+        {/* Add Invoice Modal */}
+        <AddInvoiceModal
+          isOpen={isAddInvoiceModalOpen}
+          onClose={() => setIsAddInvoiceModalOpen(false)}
+        />
       </div>
     </div>
   );
