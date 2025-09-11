@@ -67,7 +67,6 @@
     "companyIbanAccountNumber": "رقم حساب الايبان الخاص بالشركة",
     "next": "التالي",
     "attachFilesStep2": "ارفاق الملفات (السجل التجاري . الهوية الوطنية . الشهادة البنكية)",
-    "dashboard": "لوحة التحكم",
     "invoices": "الفواتير",
     "userProfile": "الملف الشخصي",
     "informationSecurityEngineer": "مهندسة أمن معلومات",
@@ -111,5 +110,11 @@
     "remaining": "متبقي",
     "payInstallment": "ادفع دفعة",
     "incomplete": "غير مكتملة",
-    "complete": "مكتملة"
+    "complete": "مكتملة",
+    "dashboard": "لوحة التحكم",
+    "clients": "العملاء",
+    "employees": "الموظفين",
+    "sales": "المبيعات",
+    "withdrawals_requests": "طلبات السحب",
+    "complains": "الشكاوي"
 }

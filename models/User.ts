@@ -3,13 +3,11 @@ import bcrypt from "bcryptjs";
 
 const userSchema = new mongoose.Schema(
   {
-    username: {
+    name: {
       type: String,
       required: true,
-      unique: true,
       trim: true,
-      minlength: 3,
-      maxlength: 50,
+      maxlength: 100,
     },
     email: {
       type: String,
@@ -18,34 +16,39 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       trim: true,
     },
-    password: {
-      type: String,
-      required: true,
-      minlength: 6,
-    },
-    passwordConfirm: {
-      type: String,
-      required: true,
-      minlength: 6,
-    },
-    name: {
-      type: String,
-      required: true,
-      trim: true,
-      maxlength: 100,
-    },
     mobile_number: {
       type: String,
       trim: true,
     },
-    position: {
+    id_number: {
       type: String,
       trim: true,
-      maxlength: 100,
+      minLength: 10,
+      maxLength: 10,
+      unique: true,
     },
-    isVerified: {
-      type: Boolean,
-      default: false,
+    tax_number: {
+      type: String,
+      trim: true,
+    },
+    bank_iban: {
+      type: String,
+      trim: true,
+    },
+    bank_name: {
+      type: String,
+      trim: true,
+    },
+    commercial_number: {
+      type: String,
+      trim: true,
+      unique: true,
+    },
+    documents: [String],
+    password: {
+      type: String,
+      required: true,
+      minLength: 6,
     },
     isActive: {
       type: Boolean,
@@ -73,21 +76,22 @@ userSchema.set("toJSON", {
   virtuals: true,
   transform: function (doc: any, ret: any) {
     delete (ret as any).password;
-    delete (ret as any).passwordConfirm;
     return ret;
   },
 });
 
 export type UserType = Omit<InferSchemaType<typeof userSchema>, "role"> & {
   _id: mongoose.Types.ObjectId | string;
-  username: string;
+  name: string;
   email: string;
   password?: string; // Optional because it gets deleted in toJSON
-  passwordConfirm?: string; // Optional because it gets deleted in toJSON
-  name: string;
-  mobile_number?: string;
-  position?: string;
-  isVerified: boolean;
+  mobile_number: string;
+  id_number: string;
+  tax_number: string;
+  bank_iban: string;
+  bank_name: string;
+  commercial_number: string;
+  documents: string[];
   isActive: boolean;
   role: string;
   createdAt: Date;

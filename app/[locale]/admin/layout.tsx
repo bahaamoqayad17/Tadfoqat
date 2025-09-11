@@ -1,73 +1,66 @@
 "use client";
 
-import { useState } from "react";
-import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
+import { useMemo, useState } from "react";
+import { useTranslations, useLocale } from "next-intl";
 import {
   Menu,
-  X,
   User,
-  BarChart3,
   Grid3X3,
-  Megaphone,
-  FileText,
   CreditCard,
-  UserCircle,
-  Mail,
-  Settings,
+  Users,
+  ShoppingBag,
+  Phone,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const router = useRouter();
   const t = useTranslations();
   const [mobileOpen, setMobileOpen] = useState(false);
-
+  const pathname = usePathname();
+  const locale = useLocale();
+  const currentPath = useMemo(() => {
+    return pathname.replace(`/${locale}`, "");
+  }, [pathname, locale]);
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
   const topics = [
     {
-      title: "Dashboard",
+      title: "dashboard",
       icon: <Grid3X3 className="w-5 h-5" />,
       href: "/admin",
     },
     {
-      title: "Apps",
-      icon: <Settings className="w-5 h-5" />,
-      href: "/admin/apps",
+      title: "clients",
+      icon: <User className="w-5 h-5" />,
+      href: "/admin/clients",
     },
     {
-      title: "Campaigns",
-      icon: <Megaphone className="w-5 h-5" />,
-      href: "/admin/campaigns",
+      title: "employees",
+      icon: <Users className="w-5 h-5" />,
+      href: "/admin/employees",
     },
     {
-      title: "Reports",
-      icon: <BarChart3 className="w-5 h-5" />,
-      href: "/admin/reports",
-      subMenu: [
-        {
-          title: "Performance",
-          href: "/admin/reports/performance",
-        },
-        {
-          title: "Revesal",
-          href: "/admin/reports/reversals",
-        },
-      ],
+      title: "sales",
+      icon: <ShoppingBag className="w-5 h-5" />,
+      href: "/admin/sales",
     },
     {
-      title: "Profile",
-      icon: <UserCircle className="w-5 h-5" />,
-      href: "/admin/profile",
+      title: "withdrawals_requests",
+      icon: <CreditCard className="w-5 h-5" />,
+      href: "/admin/withdrawals_requests",
+    },
+    {
+      title: "complains",
+      icon: <Phone className="w-5 h-5" />,
+      href: "/admin/complains",
     },
   ];
 
@@ -93,10 +86,14 @@ export default function DashboardLayout({
                 <a
                   key={item.href}
                   href={item.href}
-                  className="flex items-center px-3 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-100 transition-colors gap-3"
+                  className={`flex items-center px-3 py-2 text-sm font-bold text-gray-700 rounded-lg hover:bg-gray-100 transition-colors gap-3 ${
+                    currentPath === item.href
+                      ? "bg-primary text-white hover:bg-primary/90"
+                      : ""
+                  }`}
                 >
                   {item.icon}
-                  <span>{item.title}</span>
+                  <span>{t(item.title)}</span>
                 </a>
               ))}
             </nav>
@@ -142,8 +139,8 @@ export default function DashboardLayout({
             </Button>
           </div>
 
-          <div className="flex items-center">
-            <span className="text-sm text-gray-600 mr-3">Bahaa Moqayad</span>
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-gray-600">Bahaa Moqayad</span>
             <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
               <User className="w-4 h-4 text-white" />
             </div>

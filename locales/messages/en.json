@@ -67,7 +67,6 @@
     "companyIbanAccountNumber": "Company IBAN Account Number",
     "next": "Next",
     "attachFilesStep2": "Attach Files (Commercial Register, National ID, Bank Certificate)",
-    "dashboard": "Dashboard",
     "invoices": "Invoices",
     "userProfile": "User Profile",
     "informationSecurityEngineer": "Information Security Engineer",
@@ -111,5 +110,11 @@
     "remaining": "Remaining",
     "payInstallment": "Pay Installment",
     "incomplete": "Incomplete",
-    "complete": "Complete"
+    "complete": "Complete",
+    "dashboard": "Dashboard",
+    "clients": "Clients",
+    "employees": "Employees",
+    "sales": "Sales",
+    "withdrawals_requests": "Withdrawals Requests",
+    "complains": "Complains"
 }
