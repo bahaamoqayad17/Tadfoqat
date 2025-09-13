@@ -34,7 +34,6 @@ const invoiceSchema = new mongoose.Schema(
           type: String,
           trim: true,
         },
-        trim: true,
       },
     ],
     status: {

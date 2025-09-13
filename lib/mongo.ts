@@ -1,6 +1,12 @@
 import mongoose from "mongoose";
 import "../models/User";
 import "../models/PasswordReset";
+import "../models/Wallet";
+import "../models/Invoice";
+import "../models/Milestone";
+import "../models/Contact";
+import "../models/WithdrawRequest";
+import "../models/Notification";
 
 const MONGODB_URI =
   "mongodb+srv://Projects:MW4oAAkNPNlhvwRl@projects.vvekv6h.mongodb.net/Tadfoqat";
