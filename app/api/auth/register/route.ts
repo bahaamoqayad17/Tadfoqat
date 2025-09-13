@@ -11,7 +11,6 @@ export async function POST(request: NextRequest) {
   try {
     const {
       name,
-      username,
       email,
       mobile_number,
       password,
@@ -24,7 +23,7 @@ export async function POST(request: NextRequest) {
     } = await request.json();
 
     // Basic validation
-    if (!name || !username || !email || !password) {
+    if (!name || !email || !password) {
       return NextResponse.json(
         { status: false, error: "All required fields must be filled" },
         { status: 400 }
@@ -41,21 +40,12 @@ export async function POST(request: NextRequest) {
 
     // Check if user exists
     const existingUser = await User.findOne({
-      $or: [{ email }, { username }],
+      email,
     });
+
     if (existingUser) {
-      if (existingUser.email === email) {
-        return NextResponse.json(
-          {
-            status: false,
-            error: "User with this email already exists",
-            field: "email",
-          },
-          { status: 409 }
-        );
-      }
       return NextResponse.json(
-        { status: false, error: "Username already taken", field: "username" },
+        { status: false, error: "Email already taken", field: "email" },
         { status: 409 }
       );
     }
@@ -67,7 +57,6 @@ export async function POST(request: NextRequest) {
     // Create user (do NOT persist passwordConfirm)
     const newUser = await User.create({
       name,
-      username,
       email,
       mobile_number,
       id_number,
@@ -99,9 +88,7 @@ export async function POST(request: NextRequest) {
         id: populatedUser!._id.toString(),
         email: populatedUser!.email,
         name: populatedUser!.name,
-        username: populatedUser!.username,
         role: populatedUser!.role,
-        avatar: populatedUser!.avatar,
         id_number: populatedUser!.id_number,
         tax_number: populatedUser!.tax_number,
         bank_iban: populatedUser!.bank_iban,
@@ -127,9 +114,7 @@ export async function POST(request: NextRequest) {
           id: populatedUser!._id,
           email: populatedUser!.email,
           name: populatedUser!.name,
-          username: populatedUser!.username,
           role: populatedUser!.role,
-          avatar: populatedUser!.avatar,
           id_number: populatedUser!.id_number,
           tax_number: populatedUser!.tax_number,
           bank_iban: populatedUser!.bank_iban,
@@ -137,12 +122,11 @@ export async function POST(request: NextRequest) {
           commercial_number: populatedUser!.commercial_number,
           isVerified: populatedUser!.isVerified,
           isActive: populatedUser!.isActive,
-          createdAt: populatedUser!.createdAt,
-          updatedAt: populatedUser!.updatedAt,
         },
       },
       {
         headers: {
+          // 30 days
           "Set-Cookie": `session=${session}; HttpOnly; Path=/; Max-Age=${2592000}; SameSite=Lax`,
         },
       }
