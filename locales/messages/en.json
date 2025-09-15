@@ -147,5 +147,15 @@
     "loginSuccess": "Login successful! Welcome back.",
     "loginFailed": "Login failed. Please check your credentials.",
     "networkError": "Network error. Please try again.",
-    "invalidEmailOrPassword": "Invalid email or password"
+    "invalidEmailOrPassword": "Invalid email or password",
+    "registrationSuccess": "Registration successful! Please check your email to verify your account.",
+    "registrationFailed": "Registration failed. Please try again.",
+    "emailAlreadyTaken": "Email already taken",
+    "passwordTooShort": "Password must be at least 6 characters long",
+    "requiredFieldsMissing": "All required fields must be filled",
+    "fileUploadError": "Error uploading files. Please try again.",
+    "creatingAccount": "Creating Account...",
+    "uploadingFiles": "Uploading Files...",
+    "storageAccessDenied": "Storage access denied. Please check Cloudinary configuration.",
+    "uploadFailed": "File upload failed. Please try again."
 }

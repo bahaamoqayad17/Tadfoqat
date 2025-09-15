@@ -6,21 +6,23 @@ import jwt from "jsonwebtoken";
 import { connectToDatabase } from "@/lib/mongo";
 import User from "@/models/User";
 import Wallet from "@/models/Wallet";
+import { uploadFileToCloudinary } from "@/lib/cloudinary";
 
 export async function POST(request: NextRequest) {
   try {
-    const {
-      name,
-      email,
-      mobile_number,
-      password,
-      id_number,
-      tax_number,
-      bank_iban,
-      bank_name,
-      commercial_number,
-      role,
-    } = await request.json();
+    const data = await request.formData();
+
+    const name = data.get("name") as string;
+    const email = data.get("email") as string;
+    const mobile_number = data.get("mobile_number") as string;
+    const id_number = data.get("id_number") as string;
+    const tax_number = data.get("tax_number") as string;
+    const bank_iban = data.get("bank_iban") as string;
+    const bank_name = data.get("bank_name") as string;
+    const commercial_number = data.get("commercial_number") as string;
+    const password = data.get("password") as string;
+    const documents = data.getAll("documents") as File[];
+    const role = data.get("role") as string;
 
     // Basic validation
     if (!name || !email || !password) {
@@ -54,6 +56,24 @@ export async function POST(request: NextRequest) {
     const pwSalt = await bcrypt.genSalt(12);
     const hashedPassword = await bcrypt.hash(password, pwSalt);
 
+    const documentUrls = await Promise.all(
+      documents.map(async (document: File) => {
+        try {
+          return await uploadFileToCloudinary(document);
+        } catch (error) {
+          console.error(`Failed to upload document ${document.name}:`, error);
+          throw new Error(
+            `Failed to upload ${document.name}: ${
+              error instanceof Error ? error.message : "Unknown error"
+            }`
+          );
+        }
+      })
+    ).catch((error) => {
+      console.error("Error uploading documents:", error);
+      throw new Error("File upload failed. Please try again.");
+    });
+
     // Create user (do NOT persist passwordConfirm)
     const newUser = await User.create({
       name,
@@ -67,6 +87,7 @@ export async function POST(request: NextRequest) {
       password: hashedPassword,
       isVerified: false, // ensure default
       role,
+      documents: documentUrls,
     });
 
     if (!newUser) {

@@ -2,8 +2,8 @@
 
 import React, { useState } from "react";
 import { useTranslations } from "next-intl";
-import MerchantRegister from "@/components/MerchantRegister";
-import BuyerRegister from "@/components/BuyerRegister";
+import MerchantRegister from "./MerchantRegister";
+import BuyerRegister from "./BuyerRegister";
 import AuthTitle from "@/components/AuthTitle";
 
 export default function Register() {
