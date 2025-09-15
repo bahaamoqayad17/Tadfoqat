@@ -141,5 +141,11 @@
     "tax_number": "Tax Number",
     "bank_iban": "Bank IBAN",
     "bank_name": "Bank Name",
-    "commercial_number": "Commercial Number"
+    "commercial_number": "Commercial Number",
+    "rememberMe": "Remember Me",
+    "loggingIn": "Logging In...",
+    "loginSuccess": "Login successful! Welcome back.",
+    "loginFailed": "Login failed. Please check your credentials.",
+    "networkError": "Network error. Please try again.",
+    "invalidEmailOrPassword": "Invalid email or password"
 }

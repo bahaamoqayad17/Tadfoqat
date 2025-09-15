@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
   if (!user) {
     return NextResponse.json({
       status: false,
-      error: "Invalid email/password",
+      error: "invalidEmailOrPassword",
     });
   }
 
@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
   if (!isValid) {
     return NextResponse.json({
       status: false,
-      error: "Invalid email/password",
+      error: "invalidEmailOrPassword",
     });
   }
 

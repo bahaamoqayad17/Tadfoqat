@@ -5,14 +5,72 @@ import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ArrowRight, User } from "lucide-react";
+import { ArrowRight, User, Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const t = useTranslations();
   const [activeTab, setActiveTab] = useState<"merchant" | "buyer">("merchant");
   const router = useRouter();
+
+  // Form state
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    rememberMe: false,
+  });
+
+  // UI state
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Handle form input changes
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (data.status) {
+        // Login successful
+        toast.success(t("loginSuccess"));
+        // The session cookie is automatically set by the backend
+        // Redirect based on user role
+        if (data.user.role === "admin") {
+          router.push("/admin");
+        } else if (data.user.role === "merchant") {
+          router.push("/merchant");
+        } else {
+          router.push("/client");
+        }
+      } else {
+        toast.error(t(data.error) || t("loginFailed"));
+      }
+    } catch (err) {
+      toast.error(t("networkError"));
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return (
     <div className="bg-white flex items-center justify-center px-4 py-20">
       <div className="w-full max-w-xl">
@@ -61,20 +119,24 @@ export default function Login() {
           </div>
 
           {/* Login Form */}
-          <form className="space-y-6">
-            {/* Commercial Registration Number Field */}
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Email Field */}
             <div className="space-y-2 text-right">
               <Label
-                htmlFor="registrationNumber"
+                htmlFor="email"
                 className="text-sm font-medium text-gray-700 block"
               >
-                {t("commercialRegistrationNumber")}
+                {t("email")}
               </Label>
               <Input
-                id="registrationNumber"
-                type="text"
+                id="email"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleInputChange}
                 className="border-gray-300 focus:border-primary focus:ring-primary"
-                placeholder={t("commercialRegistrationNumber")}
+                placeholder={t("email")}
+                required
               />
             </div>
 
@@ -88,10 +150,32 @@ export default function Login() {
               </Label>
               <Input
                 id="password"
+                name="password"
                 type="password"
+                value={formData.password}
+                onChange={handleInputChange}
                 className="border-gray-300 focus:border-primary focus:ring-primary"
                 placeholder={t("password")}
+                required
               />
+            </div>
+
+            {/* Remember Me Checkbox */}
+            <div className="flex items-center space-x-2 text-right">
+              <input
+                id="rememberMe"
+                name="rememberMe"
+                type="checkbox"
+                checked={formData.rememberMe}
+                onChange={handleInputChange}
+                className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+              />
+              <Label
+                htmlFor="rememberMe"
+                className="text-sm text-gray-700 cursor-pointer"
+              >
+                {t("rememberMe")}
+              </Label>
             </div>
 
             {/* Forgot Password Link */}
@@ -108,10 +192,15 @@ export default function Login() {
             <div className="pt-4">
               <Button
                 type="submit"
-                className="w-full bg-gradient-to-t from-blue-800 to-blue-600 hover:from-blue-900 hover:to-blue-700 text-white py-3 font-medium flex items-center justify-center gap-2"
+                disabled={isLoading}
+                className="w-full bg-gradient-to-t from-blue-800 to-blue-600 hover:from-blue-900 hover:to-blue-700 text-white py-3 font-medium flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <ArrowRight className="w-4 h-4" />
-                {t("login")}
+                {isLoading ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <ArrowRight className="w-4 h-4" />
+                )}
+                {isLoading ? t("loggingIn") : t("login")}
               </Button>
             </div>
           </form>
