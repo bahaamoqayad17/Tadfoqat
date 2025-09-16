@@ -1,20 +1,21 @@
 "use server";
 
 import { connectToDatabase } from "@/lib/mongo";
-import WithdrawRequest from "@/models/WithdrawRequest";
+import Invoice from "@/models/Invoice";
 
-export async function getWithdrawRequests() {
+export async function getInvoices() {
   try {
     await connectToDatabase();
-    const withdrawRequests = await WithdrawRequest.find()
-      .populate("user")
+    const invoices = await Invoice.find()
+      .populate("client")
+      .populate("merchant")
       .lean();
     return {
       status: true,
-      data: withdrawRequests,
+      data: invoices,
     };
   } catch (error) {
-    console.error("Error getting withdraw requests:", error);
+    console.error("Error getting invoices:", error);
     return {
       status: false,
       error: "Internal server error",

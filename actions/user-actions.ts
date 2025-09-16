@@ -39,7 +39,7 @@ export async function getClients() {
 export async function getEmployees() {
   try {
     await connectToDatabase();
-    const admin = await User.find({ role: "admin" });
+    const admin = await User.find({ role: "admin" }).select("-password").lean();
     return {
       status: true,
       data: admin,

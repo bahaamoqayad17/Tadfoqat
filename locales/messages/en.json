@@ -177,5 +177,10 @@
     "noDocumentsFound": "No documents found for this client",
     "allDocumentsDownloaded": "All documents downloaded successfully",
     "someDocumentsDownloaded": "Downloaded {count} out of {total} documents",
-    "downloadFailed": "Failed to download documents"
+    "downloadFailed": "Failed to download documents",
+    "totalClients": "Total Clients",
+    "totalInvoices": "Total Invoices",
+    "totalPayments": "Total Payments",
+    "totalmerchants": "Total Merchants",
+    "fromLastMonth": "From Last Month"
 }

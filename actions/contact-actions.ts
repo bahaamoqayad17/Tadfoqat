@@ -30,7 +30,7 @@ export async function createContact(
 export async function getContacts() {
   try {
     await connectToDatabase();
-    const contacts = await Contact.find();
+    const contacts = await Contact.find().lean();
     return contacts;
   } catch (error) {
     console.error("Error getting contacts:", error);

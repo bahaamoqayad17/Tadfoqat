@@ -177,5 +177,10 @@
     "noDocumentsFound": "لا توجد ملفات لهذا العميل",
     "allDocumentsDownloaded": "تم تحميل جميع الملفات بنجاح",
     "someDocumentsDownloaded": "تم تحميل {count} من أصل {total} ملف",
-    "downloadFailed": "فشل في تحميل الملفات"
+    "downloadFailed": "فشل في تحميل الملفات",
+    "totalClients": "إجمالي العملاء",
+    "totalInvoices": "إجمالي الفواتير",
+    "totalPayments": "إجمالي المدفوعات",
+    "totalmerchants": "إجمالي التجار",
+    "fromLastMonth": "من الشهر الماضي"
 }
