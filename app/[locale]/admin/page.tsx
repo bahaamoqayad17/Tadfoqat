@@ -1,5 +1,10 @@
 import React from "react";
+import ChartAreaInteractive from "@/components/Chart";
 
 export default function Admin() {
-  return <div>Admin</div>;
+  return (
+    <div>
+      <ChartAreaInteractive />
+    </div>
+  );
 }
