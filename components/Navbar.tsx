@@ -58,7 +58,8 @@ export default function Navbar() {
               alt="Tadfoqat Logo"
               width={120}
               height={40}
-              className="h-8 w-auto lg:h-10"
+              className="h-8 w-auto lg:h-10 cursor-pointer"
+              onClick={() => router.push("/")}
             />
           </div>
         </div>

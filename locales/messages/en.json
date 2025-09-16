@@ -157,5 +157,20 @@
     "creatingAccount": "Creating Account...",
     "uploadingFiles": "Uploading Files...",
     "storageAccessDenied": "Storage access denied. Please check Cloudinary configuration.",
-    "uploadFailed": "File upload failed. Please try again."
+    "uploadFailed": "File upload failed. Please try again.",
+    "contactFormTitle": "Send us a message",
+    "contactFormSubtitle": "We'd love to hear from you. Send us a message and we'll respond as soon as possible.",
+    "subject": "Subject",
+    "message": "Message",
+    "sendMessage": "Send Message",
+    "sendingMessage": "Sending Message...",
+    "contactSuccess": "Message sent successfully! We'll get back to you soon.",
+    "contactError": "Failed to send message. Please try again.",
+    "invalidEmail": "Please enter a valid email address",
+    "messageTooShort": "Message must be at least 10 characters long",
+    "subjectTooShort": "Subject must be at least 3 characters long",
+    "nameTooShort": "Name must be at least 2 characters long",
+    "complaintSuccess": "Complaint submitted successfully! We'll review it and get back to you soon.",
+    "complaintError": "Failed to submit complaint. Please try again.",
+    "sendingComplaint": "Submitting Complaint..."
 }

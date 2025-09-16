@@ -14,6 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function DashboardLayout({
   children,
@@ -24,6 +25,7 @@ export default function DashboardLayout({
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
   const locale = useLocale();
+  const router = useRouter();
   const currentPath = useMemo(() => {
     return pathname.replace(`/${locale}`, "");
   }, [pathname, locale]);
@@ -73,7 +75,8 @@ export default function DashboardLayout({
             alt="Tadfoqat Logo"
             width={120}
             height={40}
-            className="h-8 w-auto lg:h-10"
+            className="h-8 w-auto lg:h-10 cursor-pointer"
+            onClick={() => router.push("/admin")}
           />
         </div>
 
