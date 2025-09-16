@@ -1,14 +1,73 @@
 "use client";
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 import React from "react";
+import { toast } from "react-toastify";
+import { Download, FileText } from "lucide-react";
 
 export default function ClientsPage({ data }: { data: any }) {
   const columnHelper = createColumnHelper<any>();
   const t = useTranslations();
+
+  const downloadDocuments = async (documents: string[], clientName: string) => {
+    if (!documents || documents.length === 0) {
+      toast.error(t("noDocumentsFound"));
+      return;
+    }
+
+    try {
+      // Create a zip-like download for multiple documents
+      const downloadPromises = documents.map(async (url, index) => {
+        try {
+          const response = await fetch(url);
+          const blob = await response.blob();
+
+          // Extract file extension from URL or use default
+          const urlParts = url.split(".");
+          const extension =
+            urlParts.length > 1 ? urlParts[urlParts.length - 1] : "pdf";
+
+          // Create download link
+          const downloadUrl = window.URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = downloadUrl;
+          link.download = `${clientName}_document_${index + 1}.${extension}`;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          window.URL.revokeObjectURL(downloadUrl);
+
+          return true;
+        } catch (error) {
+          console.error(`Error downloading document ${index + 1}:`, error);
+          return false;
+        }
+      });
+
+      const results = await Promise.all(downloadPromises);
+      const successCount = results.filter(Boolean).length;
+
+      if (successCount === documents.length) {
+        toast.success(t("allDocumentsDownloaded"));
+      } else if (successCount > 0) {
+        toast.warning(
+          t("someDocumentsDownloaded", {
+            count: successCount,
+            total: documents.length,
+          })
+        );
+      } else {
+        toast.error(t("downloadFailed"));
+      }
+    } catch (error) {
+      console.error("Error downloading documents:", error);
+      toast.error(t("downloadFailed"));
+    }
+  };
   const columns = [
     columnHelper.accessor("name", {
       header: t("name"),
@@ -34,24 +93,6 @@ export default function ClientsPage({ data }: { data: any }) {
         return <div>{row.original.id_number}</div>;
       },
     }),
-    columnHelper.accessor("tax_number", {
-      header: t("tax_number"),
-      cell: ({ row }) => {
-        return <div>{row.original.tax_number}</div>;
-      },
-    }),
-    columnHelper.accessor("bank_iban", {
-      header: t("bank_iban"),
-      cell: ({ row }) => {
-        return <div>{row.original.bank_iban}</div>;
-      },
-    }),
-    columnHelper.accessor("bank_name", {
-      header: t("bank_name"),
-      cell: ({ row }) => {
-        return <div>{row.original.bank_name}</div>;
-      },
-    }),
     columnHelper.accessor("commercial_number", {
       header: t("commercial_number"),
       cell: ({ row }) => {
@@ -61,28 +102,58 @@ export default function ClientsPage({ data }: { data: any }) {
     columnHelper.accessor("isVerified", {
       header: t("verified"),
       cell: ({ row }) => {
-        return <div>{row.original.isVerified}</div>;
+        return (
+          <div>
+            {row.original.isVerified ? (
+              <Badge
+                variant="success"
+                className="cursor-pointer hover:bg-success/90"
+              >
+                {t("verified")}
+              </Badge>
+            ) : (
+              <Badge
+                variant="error"
+                className="cursor-pointer hover:bg-error/70"
+              >
+                {t("unverified")}
+              </Badge>
+            )}
+          </div>
+        );
       },
     }),
     columnHelper.accessor("createdAt", {
       header: t("createdAt"),
       cell: ({ row }) => {
-        return <div>{row.original.createdAt}</div>;
+        return (
+          <div>{new Date(row.original.createdAt).toLocaleDateString()}</div>
+        );
       },
     }),
     columnHelper.display({
       id: "actions",
       header: t("actions"),
       cell: (info) => (
-        <>
+        <div className="flex justify-center items-center gap-2">
           <Button
             size="sm"
             color="primary"
             variant="outline"
-            onClick={() => {}}
+            onClick={() =>
+              downloadDocuments(
+                info.row.original.documents || [],
+                info.row.original.name
+              )
+            }
             className="mr-2"
+            disabled={
+              !info.row.original.documents ||
+              info.row.original.documents.length === 0
+            }
           >
-            {t("edit")}
+            <Download className="w-4 h-4 mr-1" />
+            {t("show_documents")}
           </Button>
           <Button
             size="sm"
@@ -94,7 +165,7 @@ export default function ClientsPage({ data }: { data: any }) {
             {/* {isDeleting === info.row.original._id ? t("deleting") : t("delete")} */}
             {t("delete")}
           </Button>
-        </>
+        </div>
       ),
       enableGlobalFilter: false,
       enableSorting: false,

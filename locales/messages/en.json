@@ -172,5 +172,10 @@
     "nameTooShort": "Name must be at least 2 characters long",
     "complaintSuccess": "Complaint submitted successfully! We'll review it and get back to you soon.",
     "complaintError": "Failed to submit complaint. Please try again.",
-    "sendingComplaint": "Submitting Complaint..."
+    "sendingComplaint": "Submitting Complaint...",
+    "show_documents": "Show Documents",
+    "noDocumentsFound": "No documents found for this client",
+    "allDocumentsDownloaded": "All documents downloaded successfully",
+    "someDocumentsDownloaded": "Downloaded {count} out of {total} documents",
+    "downloadFailed": "Failed to download documents"
 }

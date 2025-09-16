@@ -172,5 +172,10 @@
     "nameTooShort": "يجب أن يكون الاسم حرفين على الأقل",
     "complaintSuccess": "تم إرسال الشكوى بنجاح! سنراجعها ونتواصل معك قريباً.",
     "complaintError": "فشل في إرسال الشكوى. يرجى المحاولة مرة أخرى.",
-    "sendingComplaint": "جاري إرسال الشكوى..."
+    "sendingComplaint": "جاري إرسال الشكوى...",
+    "show_documents": "عرض الملفات",
+    "noDocumentsFound": "لا توجد ملفات لهذا العميل",
+    "allDocumentsDownloaded": "تم تحميل جميع الملفات بنجاح",
+    "someDocumentsDownloaded": "تم تحميل {count} من أصل {total} ملف",
+    "downloadFailed": "فشل في تحميل الملفات"
 }

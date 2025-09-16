@@ -35,3 +35,21 @@ export async function getClients() {
     };
   }
 }
+
+export async function getEmployees() {
+  try {
+    await connectToDatabase();
+    const admin = await User.findOne({ role: "admin" });
+    return {
+      status: true,
+      data: admin,
+    };
+  } catch (error) {
+    console.error("Error getting admin:", error);
+    return {
+      status: false,
+      error: "Internal server error",
+      data: [],
+    };
+  }
+}

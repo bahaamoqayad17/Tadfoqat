@@ -26,3 +26,14 @@ export async function createContact(
     };
   }
 }
+
+export async function getContacts() {
+  try {
+    await connectToDatabase();
+    const contacts = await Contact.find();
+    return contacts;
+  } catch (error) {
+    console.error("Error getting contacts:", error);
+    return [];
+  }
+}
