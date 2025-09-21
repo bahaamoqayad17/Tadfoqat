@@ -198,5 +198,19 @@
     "noInvoicesDescription": "ابدأ بإضافة فواتير لعملائك أو إرسال شكوى.",
     "quickActions": "الإجراءات السريعة",
     "viewInvoices": "عرض الفواتير",
-    "submitComplaint": "إرسال شكوى"
+    "submitComplaint": "إرسال شكوى",
+    "clientMobileNumber": "رقم هاتف العميل",
+    "verify": "توثيق",
+    "unverify": "إلغاء التوثيق",
+    "userVerifiedSuccess": "تم توثيق المستخدم بنجاح!",
+    "userUnverifiedSuccess": "تم إلغاء توثيق المستخدم بنجاح!",
+    "verificationToggleError": "فشل في تغيير حالة التوثيق. يرجى المحاولة مرة أخرى.",
+    "phoneNumberTooShort": "رقم الهاتف يجب أن يكون 9 أرقام على الأقل",
+    "invoiceCreatedSuccess": "تم إنشاء الفاتورة بنجاح!",
+    "invoiceCreatedError": "فشل في إنشاء الفاتورة. يرجى المحاولة مرة أخرى.",
+    "creatingInvoice": "جاري إنشاء الفاتورة...",
+    "unauthorized": "غير مصرح لك بالدخول",
+    "clientNotFound": "العميل غير موجود",
+    "internalServerError": "خطأ في الخادم",
+    "totalBlockedAmount": "الاموال المتعثرة بالسداد"
 }

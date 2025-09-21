@@ -54,6 +54,10 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
     role: {
       type: String,
       default: "user",
@@ -93,6 +97,7 @@ export type UserType = Omit<InferSchemaType<typeof userSchema>, "role"> & {
   commercial_number: string;
   documents: string[];
   isActive: boolean;
+  isVerified: boolean;
   role: string;
   createdAt: Date;
   updatedAt: Date;

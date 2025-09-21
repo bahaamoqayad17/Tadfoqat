@@ -82,7 +82,7 @@ export default function BuyerRegister() {
       const submitData = new FormData();
       submitData.append("name", formData.name);
       submitData.append("email", formData.email);
-      submitData.append("mobile_number", formData.mobile_number);
+      submitData.append("mobile_number", "+966" + formData.mobile_number);
       submitData.append("password", formData.password);
       submitData.append("id_number", formData.id_number);
       submitData.append("commercial_number", formData.commercial_number);
@@ -200,16 +200,22 @@ export default function BuyerRegister() {
                 >
                   {t("phoneNumber")}
                 </Label>
-                <Input
-                  id="phoneNumber"
-                  name="mobile_number"
-                  type="tel"
-                  value={formData.mobile_number}
-                  onChange={handleInputChange}
-                  className="border-green-200 focus:border-green-400 focus:ring-green-400"
-                  placeholder={t("phoneNumber")}
-                  required
-                />
+                <div className="relative">
+                  <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg">
+                    +966
+                  </div>
+                  <Input
+                    id="phoneNumber"
+                    name="mobile_number"
+                    type="tel"
+                    value={formData.mobile_number}
+                    onChange={handleInputChange}
+                    className="border-green-200 focus:border-green-400 focus:ring-green-400"
+                    required
+                    placeholder="5X XXX XXXX"
+                    maxLength={9}
+                  />
+                </div>
               </div>
             </div>
 

@@ -145,7 +145,7 @@ export default function DashboardLayout({
               </div>
 
               <div className="flex items-center gap-2">
-                <span className="text-sm text-gray-600">Bahaa Moqayad</span>
+                {/* <span className="text-sm text-gray-600">Bahaa Moqayad</span> */}
                 <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
                   <User className="w-4 h-4 text-white" />
                 </div>

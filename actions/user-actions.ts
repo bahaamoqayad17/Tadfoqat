@@ -2,7 +2,7 @@
 
 import { connectToDatabase } from "@/lib/mongo";
 import User from "@/models/User";
-import { isAuthenticated, getUserRole, getUserFromCookie } from "@/lib/cookie";
+import { getUserFromCookie } from "@/lib/cookie";
 import Wallet from "@/models/Wallet";
 
 export async function getClients() {
@@ -57,6 +57,7 @@ export async function getEmployees() {
 
 export async function getUserWallet() {
   const { user } = await getUserFromCookie();
+
   if (!user) {
     return {
       status: false,
@@ -80,6 +81,39 @@ export async function getUserWallet() {
       status: false,
       error: "Internal server error",
       data: {},
+    };
+  }
+}
+
+export async function toggleUserVerification(userId: string) {
+  try {
+    await connectToDatabase();
+    const user = await User.findOne({ _id: userId }).select("isVerified");
+
+    if (!user) {
+      return {
+        status: false,
+        error: "User not found",
+        data: [],
+      };
+    }
+
+    const currentStatus = user.isVerified;
+    const newStatus = !currentStatus;
+
+    await User.updateOne({ _id: userId }, { $set: { isVerified: newStatus } });
+
+    return {
+      status: true,
+      data: "User verification status updated",
+      isVerified: newStatus,
+    };
+  } catch (error) {
+    console.error("Error verifying user:", error);
+    return {
+      status: false,
+      error: "Internal server error",
+      data: [],
     };
   }
 }

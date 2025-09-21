@@ -198,5 +198,19 @@
     "noInvoicesDescription": "Start by adding invoices for your clients or submitting a complaint.",
     "quickActions": "Quick Actions",
     "viewInvoices": "View Invoices",
-    "submitComplaint": "Submit a Complaint"
+    "submitComplaint": "Submit a Complaint",
+    "clientMobileNumber": "Client Mobile Number",
+    "verify": "Verify",
+    "unverify": "Unverify",
+    "userVerifiedSuccess": "User verified successfully!",
+    "userUnverifiedSuccess": "User unverified successfully!",
+    "verificationToggleError": "Failed to toggle verification. Please try again.",
+    "phoneNumberTooShort": "Phone number must be at least 9 digits",
+    "invoiceCreatedSuccess": "Invoice created successfully!",
+    "invoiceCreatedError": "Failed to create invoice. Please try again.",
+    "creatingInvoice": "Creating Invoice...",
+    "unauthorized": "Unauthorized",
+    "clientNotFound": "Client not found",
+    "internalServerError": "Internal server error",
+    "totalBlockedAmount": "Total Blocked Amount"
 }

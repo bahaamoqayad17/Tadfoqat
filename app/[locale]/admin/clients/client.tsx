@@ -5,13 +5,41 @@ import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
-import React from "react";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { Download, FileText } from "lucide-react";
+import { Download, FileText, CheckCircle, XCircle } from "lucide-react";
+import { toggleUserVerification } from "@/actions/user-actions";
 
 export default function ClientsPage({ data }: { data: any }) {
   const columnHelper = createColumnHelper<any>();
   const t = useTranslations();
+  const [togglingUser, setTogglingUser] = useState<string | null>(null);
+
+  const handleToggleVerification = async (
+    userId: string,
+    currentStatus: boolean
+  ) => {
+    setTogglingUser(userId);
+    try {
+      const result = await toggleUserVerification(userId);
+      if (result.status) {
+        toast.success(
+          result.isVerified
+            ? t("userVerifiedSuccess")
+            : t("userUnverifiedSuccess")
+        );
+        // Refresh the page to show updated data
+        window.location.reload();
+      } else {
+        toast.error(result.error || t("verificationToggleError"));
+      }
+    } catch (error) {
+      console.error("Error toggling verification:", error);
+      toast.error(t("verificationToggleError"));
+    } finally {
+      setTogglingUser(null);
+    }
+  };
 
   const downloadDocuments = async (documents: string[], clientName: string) => {
     if (!documents || documents.length === 0) {
@@ -154,6 +182,36 @@ export default function ClientsPage({ data }: { data: any }) {
           >
             <Download className="w-4 h-4 mr-1" />
             {t("show_documents")}
+          </Button>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() =>
+              handleToggleVerification(
+                info.row.original._id,
+                info.row.original.isVerified
+              )
+            }
+            disabled={togglingUser === info.row.original._id}
+            className={
+              info.row.original.isVerified
+                ? "border-red-500 text-red-500 hover:bg-red-50"
+                : "border-green-500 text-green-500 hover:bg-green-50 hover:text-green-700"
+            }
+          >
+            {togglingUser === info.row.original._id ? (
+              <div className="w-4 h-4 animate-spin border-2 border-current border-t-transparent rounded-full" />
+            ) : info.row.original.isVerified ? (
+              <>
+                <XCircle className="w-4 h-4 mr-1" />
+                {t("unverify")}
+              </>
+            ) : (
+              <>
+                <CheckCircle className="w-4 h-4 mr-1" />
+                {t("verify")}
+              </>
+            )}
           </Button>
           <Button
             size="sm"

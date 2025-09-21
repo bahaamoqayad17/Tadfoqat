@@ -6,7 +6,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { X, Plus, Trash2 } from "lucide-react";
+import { X, Plus, Loader2 } from "lucide-react";
+import { toast } from "react-toastify";
+import createInvoice from "@/actions/invoice-actions";
 
 interface InvoiceItem {
   id: string;
@@ -35,6 +37,10 @@ export default function AddInvoiceModal({
       quantity: "",
     },
   ]);
+
+  const [clientMobileNumber, setClientMobileNumber] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handleItemChange = (
     id: string,
@@ -71,11 +77,81 @@ export default function AddInvoiceModal({
     }, 0);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
+
+    // Validate client mobile number
+    if (!clientMobileNumber.trim()) {
+      newErrors.clientMobileNumber = t("required");
+    } else if (clientMobileNumber.length < 9) {
+      newErrors.clientMobileNumber = t("phoneNumberTooShort");
+    }
+
+    // Validate items
+    items.forEach((item, index) => {
+      if (!item.itemName.trim()) {
+        newErrors[`itemName_${index}`] = t("required");
+      }
+      if (!item.quantity.trim()) {
+        newErrors[`quantity_${index}`] = t("required");
+      }
+    });
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log("Invoice submitted:", items);
-    onClose();
+
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // Prepare invoice data
+      const invoiceData = {
+        amount: calculateTotal().toString(),
+        products: items.map((item) => ({
+          id_number: item.itemNumber,
+          item_name: item.itemName,
+          price: item.price,
+          quantity: item.quantity,
+        })),
+        status: "pending",
+      };
+
+      const result = await createInvoice(
+        invoiceData,
+        "+966" + clientMobileNumber
+      );
+
+      if (result.status) {
+        toast.success(t("invoiceCreatedSuccess"));
+        // Reset form
+        setItems([
+          {
+            id: "1",
+            itemNumber: "",
+            itemName: "",
+            price: "",
+            quantity: "",
+          },
+        ]);
+        setClientMobileNumber("");
+        setErrors({});
+        onClose();
+      } else {
+        toast.error(result.error || t("invoiceCreatedError"));
+      }
+    } catch (error) {
+      console.error("Invoice creation error:", error);
+      toast.error(t("invoiceCreatedError"));
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (!isOpen) return null;
@@ -155,7 +231,7 @@ export default function AddInvoiceModal({
                             e.target.value
                           )
                         }
-                        className="border-green-200 focus:border-green-400 focus:ring-green-400 text-right bg-white"
+                        className="border-green-200 focus:border-green-400 focus:ring-green-400 bg-white"
                         placeholder={t("itemNumber")}
                       />
                     </div>
@@ -178,10 +254,17 @@ export default function AddInvoiceModal({
                         onChange={(e) =>
                           handleItemChange(item.id, "itemName", e.target.value)
                         }
-                        className="border-green-200 focus:border-green-400 focus:ring-green-400 text-right bg-white"
+                        className={`border-green-200 focus:border-green-400 focus:ring-green-400 bg-white ${
+                          errors[`itemName_${index}`] ? "border-red-500" : ""
+                        }`}
                         placeholder={t("itemName")}
                         required
                       />
+                      {errors[`itemName_${index}`] && (
+                        <p className="text-red-500 text-xs mt-1">
+                          {errors[`itemName_${index}`]}
+                        </p>
+                      )}
                     </div>
 
                     {/* Second Row */}
@@ -204,7 +287,7 @@ export default function AddInvoiceModal({
                         onChange={(e) =>
                           handleItemChange(item.id, "price", e.target.value)
                         }
-                        className="border-green-200 focus:border-green-400 focus:ring-green-400 text-right bg-white"
+                        className="border-green-200 focus:border-green-400 focus:ring-green-400 bg-white"
                         placeholder={t("price")}
                         step="0.01"
                       />
@@ -229,10 +312,17 @@ export default function AddInvoiceModal({
                         onChange={(e) =>
                           handleItemChange(item.id, "quantity", e.target.value)
                         }
-                        className="border-green-200 focus:border-green-400 focus:ring-green-400 text-right bg-white"
+                        className={`border-green-200 focus:border-green-400 focus:ring-green-400 bg-white ${
+                          errors[`quantity_${index}`] ? "border-red-500" : ""
+                        }`}
                         placeholder={t("quantity")}
                         required
                       />
+                      {errors[`quantity_${index}`] && (
+                        <p className="text-red-500 text-xs mt-1">
+                          {errors[`quantity_${index}`]}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -256,6 +346,40 @@ export default function AddInvoiceModal({
               </button>
             </div>
 
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-red-500">{t("required")}</span>
+                <Label
+                  htmlFor={`clientMobileNumber`}
+                  className="text-sm font-medium text-gray-700"
+                >
+                  {t("clientMobileNumber")}
+                </Label>
+              </div>
+              <div className="relative">
+                <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg">
+                  +966
+                </div>
+                <Input
+                  id={`clientMobileNumber`}
+                  type="tel"
+                  value={clientMobileNumber}
+                  onChange={(e) => setClientMobileNumber(e.target.value)}
+                  className={`border-green-200 focus:border-green-400 focus:ring-green-400 bg-white ${
+                    errors.clientMobileNumber ? "border-red-500" : ""
+                  }`}
+                  placeholder="5X XXX XXXX"
+                  maxLength={9}
+                  required
+                />
+                {errors.clientMobileNumber && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.clientMobileNumber}
+                  </p>
+                )}
+              </div>
+            </div>
+
             {/* Action Buttons */}
             <div className="flex gap-4 pt-6">
               <Button
@@ -268,9 +392,17 @@ export default function AddInvoiceModal({
               </Button>
               <Button
                 type="submit"
-                className="flex-1 bg-[#197BBD] hover:bg-blue-800 text-white"
+                disabled={isSubmitting}
+                className="flex-1 bg-[#197BBD] hover:bg-blue-800 text-white disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {t("addInvoice")}
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    {t("creatingInvoice")}
+                  </>
+                ) : (
+                  t("addInvoice")
+                )}
               </Button>
             </div>
           </form>
