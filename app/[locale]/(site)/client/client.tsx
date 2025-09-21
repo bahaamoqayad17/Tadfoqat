@@ -6,7 +6,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { DataTable } from "@/components/ui/data-table";
-import { createInvoiceColumns, Invoice } from "@/components/invoice-columns";
+import { createColumnHelper } from "@tanstack/react-table";
+import { Badge } from "@/components/ui/badge";
 import ComplaintForm from "@/components/ComplaintForm";
 import AddInvoiceModal from "@/components/modals/AddInvoiceModal";
 import {
@@ -20,58 +21,108 @@ import {
   LogOut,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-
-// Mock data for invoices
-const mockInvoices = [
-  {
-    id: "0533669845232",
-    amount: "4000",
-    merchantName: "شهد الحمامي",
-    date: "22*6*2001",
-    status: "incomplete",
-    paid: "1000",
-    remaining: "3000",
-  },
-  {
-    id: "0533669845232",
-    amount: "4000",
-    merchantName: "شهد الحمامي",
-    date: "22*6*2001",
-    status: "complete",
-    paid: "4000",
-    remaining: "0000000",
-  },
-  {
-    id: "0533669845232",
-    amount: "1213133",
-    merchantName: "شهد الحمامي",
-    date: "22*6*2001",
-    status: "complete",
-    paid: "0333333",
-    remaining: "0000000",
-  },
-  {
-    id: "0533669845232",
-    amount: "1213133",
-    merchantName: "شهد الحمامي",
-    date: "22*6*2001",
-    status: "complete",
-    paid: "0333333",
-    remaining: "0000000",
-  },
-];
+import { clearSession } from "@/lib/cookie";
 
 type TabType = "dashboard" | "complaints" | "invoices";
 
-export default function MerchantClient() {
+export default function ClientPage({
+  user,
+  invoices,
+}: {
+  user: any;
+  invoices: any;
+}) {
   const t = useTranslations();
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState<TabType>("dashboard");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCustomer, setSelectedCustomer] = useState("");
   const [isAddInvoiceModalOpen, setIsAddInvoiceModalOpen] = useState(false);
-  const router = useRouter();
+  const columnHelper = createColumnHelper<any>();
+
+  const handleLogout = async () => {
+    await clearSession();
+    router.push("/login");
+  };
+
   // Create columns for the DataTable
-  const columns = createInvoiceColumns(t);
+  const columns = [
+    columnHelper.accessor("_id", {
+      header: t("invoiceNumber"),
+      cell: ({ row }) => {
+        return <div>{row.original?._id as string}</div>;
+      },
+    }),
+    columnHelper.display({
+      id: "remaining",
+      header: t("remaining"),
+      cell: ({ row }) => {
+        return <div>{row.original.amount}</div>;
+      },
+    }),
+    columnHelper.display({
+      id: "paid",
+      header: t("paid"),
+      cell: ({ row }) => {
+        return <div>{row.original.amount}</div>;
+      },
+    }),
+    columnHelper.accessor("status", {
+      header: t("invoiceStatus"),
+      cell: ({ row }) => {
+        return (
+          <div>
+            {row.original.status === "completed" ? (
+              <Badge
+                variant="success"
+                className="cursor-pointer hover:bg-success/90"
+              >
+                {t("complete")}
+              </Badge>
+            ) : (
+              <Badge
+                variant="error"
+                className="cursor-pointer hover:bg-error/70"
+              >
+                {t("incomplete")}
+              </Badge>
+            )}
+          </div>
+        );
+      },
+    }),
+    columnHelper.accessor("createdAt", {
+      header: t("date"),
+      cell: ({ row }) => {
+        return (
+          <div>{new Date(row.original.createdAt).toLocaleDateString()}</div>
+        );
+      },
+    }),
+    columnHelper.accessor("merchant", {
+      header: t("merchantName"),
+      cell: ({ row }) => {
+        return <div>{row.original?.merchant?.name}</div>;
+      },
+    }),
+    columnHelper.accessor("amount", {
+      header: t("amount"),
+      cell: ({ row }) => {
+        return <div>{row.original.amount}</div>;
+      },
+    }),
+    columnHelper.display({
+      id: "actions",
+      header: t("payInstallment"),
+      cell: (info) => (
+        <Button size="sm" className="bg-blue-500 hover:bg-blue-600 text-white">
+          {t("payInstallment")}
+        </Button>
+      ),
+      enableGlobalFilter: false,
+      enableSorting: false,
+    }),
+  ];
 
   const sidebarItems = [
     { id: "dashboard" as TabType, label: t("home"), icon: Grid3X3 },
@@ -94,26 +145,24 @@ export default function MerchantClient() {
                     <User className="w-6 h-6 text-white" />
                   </div>
 
-                  <div className="flex flex-col">
-                    <h2 className="text-lg font-semibold">شهد الحمامي</h2>
-                    <p className="text-sm text-muted-foreground">
-                      {t("informationSecurityEngineer")}
-                    </p>
+                  <div className="mx-2">
+                    <h2 className="text-lg font-semibold">{user?.name}</h2>
                   </div>
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => router.push("/login")}
+                    onClick={() => handleLogout()}
                   >
                     <LogOut className="w-4 h-4" />
                   </Button>
                 </div>
               </div>
               <div className="">
-                <p className="text-sm">shahedhamami1@gmail.com</p>
-                <p className="text-sm">+972567040582</p>
-                <p className="text-sm">{t("techCompanyForMobileTrading")}</p>
-                <p className="text-sm">سجل تجاري : 000000000000</p>
+                <p className="text-sm">{user?.email}</p>
+                <p className="text-sm">{user?.mobile_number}</p>
+                <p className="text-sm">
+                  {t("commercial_number")} : {user?.commercial_number}
+                </p>
               </div>
               {/* Share Button */}
             </CardContent>
@@ -236,108 +285,216 @@ export default function MerchantClient() {
                 </CardHeader>
 
                 <CardContent>
-                  <div className="overflow-x-auto">
-                    <table className="w-full">
-                      <thead
-                        style={{
-                          backgroundColor: "rgb(25, 123, 189, 0.1)",
-                        }}
-                      >
-                        <tr className="border-b">
-                          <th className="py-3 px-4 font-medium text-gray-700">
-                            {t("invoiceNumber")}
-                          </th>
-                          <th className="py-3 px-4 font-medium text-gray-700">
-                            {t("remaining")}
-                          </th>
-                          <th className="py-3 px-4 font-medium text-gray-700">
-                            {t("paid")}
-                          </th>
-                          <th className="py-3 px-4 font-medium text-gray-700">
-                            {t("invoiceStatus")}
-                          </th>
-                          <th className="py-3 px-4 font-medium text-gray-700">
-                            {t("date")}
-                          </th>
-                          <th className="py-3 px-4 font-medium text-gray-700">
-                            {t("merchantName")}
-                          </th>
-                          <th className="py-3 px-4 font-medium text-gray-700">
-                            {t("amount")}
-                          </th>
-                          <th className="py-3 px-4 font-medium text-gray-700">
-                            {t("payInstallment")}
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody
-                        style={{
-                          backgroundColor: "rgb(25, 123, 189, 0.04)",
-                        }}
-                      >
-                        {mockInvoices.map((invoice, index) => (
-                          <tr key={index} className="border-b hover:bg-gray-50">
-                            <td className="py-3 px-4 text-right">
-                              {invoice.remaining}
-                            </td>
-                            <td className="py-3 px-4 text-right">
-                              {invoice.paid}
-                            </td>
-                            <td className="py-3 px-4 text-right">
-                              <span
-                                className={`px-2 py-1 rounded-full text-xs ${
-                                  invoice.status === "complete"
-                                    ? "bg-green-100 text-green-800"
-                                    : "bg-yellow-100 text-yellow-800"
-                                }`}
-                              >
-                                {invoice.status === "complete"
-                                  ? t("complete")
-                                  : t("incomplete")}
-                              </span>
-                            </td>
-                            <td className="py-3 px-4 text-right">
-                              {invoice.date}
-                            </td>
-                            <td className="py-3 px-4 text-right">
-                              {invoice.merchantName}
-                            </td>
-                            <td className="py-3 px-4 text-right">
-                              {invoice.amount}
-                            </td>
-                            <td className="py-3 px-4 text-right">
-                              {invoice.id}
-                            </td>
-                            <td className="py-3 px-4">
-                              <Button
-                                size="sm"
-                                className="bg-blue-500 hover:bg-blue-600 text-white"
-                              >
-                                {t("payInstallment")}
-                              </Button>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
+                  <DataTable columns={columns} data={invoices} />
                 </CardContent>
               </Card>
             )}
 
             {/* Dashboard Content */}
             {activeTab === "dashboard" && (
-              <Card>
-                <CardHeader>
-                  <CardTitle>{t("dashboard")}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">
-                    Welcome to your merchant dashboard. Select a tab from the
-                    sidebar to manage your invoices and complaints.
-                  </p>
-                </CardContent>
-              </Card>
+              <div className="space-y-6">
+                {/* Welcome Section */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <User className="w-5 h-5" />
+                      {t("welcomeBack")}, {user?.name}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground">
+                      {t("dashboardWelcomeMessage")}
+                    </p>
+                  </CardContent>
+                </Card>
+
+                {/* Quick Stats Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {/* Total Invoices */}
+                  <Card className="border-l-4 border-l-blue-500">
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-sm font-medium text-gray-600">
+                            {t("totalInvoices")}
+                          </p>
+                          <p className="text-2xl font-bold text-blue-600">
+                            {invoices?.length || 0}
+                          </p>
+                        </div>
+                        <FileText className="w-8 h-8 text-blue-500" />
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* Completed Payments */}
+                  <Card className="border-l-4 border-l-green-500">
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-sm font-medium text-gray-600">
+                            {t("completedPayments")}
+                          </p>
+                          <p className="text-2xl font-bold text-green-600">
+                            {invoices?.filter(
+                              (inv: any) => inv.status === "completed"
+                            )?.length || 0}
+                          </p>
+                        </div>
+                        <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                          <div className="w-4 h-4 bg-green-500 rounded-full"></div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* Pending Payments */}
+                  <Card className="border-l-4 border-l-yellow-500">
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-sm font-medium text-gray-600">
+                            {t("pendingPayments")}
+                          </p>
+                          <p className="text-2xl font-bold text-yellow-600">
+                            {invoices?.filter(
+                              (inv: any) => inv.status === "pending"
+                            )?.length || 0}
+                          </p>
+                        </div>
+                        <div className="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
+                          <div className="w-4 h-4 bg-yellow-500 rounded-full"></div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* Total Amount */}
+                  <Card className="border-l-4 border-l-purple-500">
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-sm font-medium text-gray-600">
+                            {t("totalAmount")}
+                          </p>
+                          <p className="text-2xl font-bold text-purple-600">
+                            {invoices?.reduce(
+                              (sum: number, inv: any) =>
+                                sum + (inv.amount || 0),
+                              0
+                            ) || 0}
+                          </p>
+                        </div>
+                        <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
+                          <span className="text-purple-500 font-bold">$</span>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                {/* Recent Activity */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <FileText className="w-5 h-5" />
+                      {t("recentActivity")}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    {invoices && invoices.length > 0 ? (
+                      <div className="space-y-4">
+                        {invoices
+                          .slice(0, 3)
+                          .map((invoice: any, index: number) => (
+                            <div
+                              key={index}
+                              className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+                            >
+                              <div className="flex items-center gap-3">
+                                <div
+                                  className={`w-3 h-3 rounded-full ${
+                                    invoice.status === "completed"
+                                      ? "bg-green-500"
+                                      : invoice.status === "pending"
+                                      ? "bg-yellow-500"
+                                      : "bg-red-500"
+                                  }`}
+                                ></div>
+                                <div>
+                                  <p className="font-medium">
+                                    {t("invoiceNumber")}: {invoice._id}
+                                  </p>
+                                  <p className="text-sm text-gray-600">
+                                    {invoice.merchant?.name} - {invoice.amount}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="">
+                                <p className="text-sm font-medium">
+                                  {invoice.status === "completed"
+                                    ? t("completed")
+                                    : invoice.status === "pending"
+                                    ? t("pending")
+                                    : t("returned")}
+                                </p>
+                                <p className="text-xs text-gray-500">
+                                  {new Date(
+                                    invoice.createdAt
+                                  ).toLocaleDateString()}
+                                </p>
+                              </div>
+                            </div>
+                          ))}
+                        {invoices.length > 3 && (
+                          <div className="text-center pt-2">
+                            <Button variant="outline" size="sm">
+                              {t("viewAllInvoices")}
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="text-center py-8">
+                        <FileText className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                        <p className="text-gray-500">{t("noInvoicesYet")}</p>
+                        <p className="text-sm text-gray-400 mt-2">
+                          {t("noInvoicesDescription")}
+                        </p>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+
+                {/* Quick Actions */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Plus className="w-5 h-5" />
+                      {t("quickActions")}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <Button
+                        className="h-auto p-4 flex flex-col items-center gap-2"
+                        onClick={() => setActiveTab("invoices")}
+                      >
+                        <FileText className="w-6 h-6" />
+                        <span>{t("viewInvoices")}</span>
+                      </Button>
+                      <Button
+                        variant="outline"
+                        className="h-auto p-4 flex flex-col items-center gap-2"
+                        onClick={() => setActiveTab("complaints")}
+                      >
+                        <Phone className="w-6 h-6" />
+                        <span>{t("submitComplaint")}</span>
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
             )}
 
             {/* Complaints Content */}

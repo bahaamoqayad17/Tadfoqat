@@ -182,5 +182,21 @@
     "totalInvoices": "Total Invoices",
     "totalPayments": "Total Payments",
     "totalmerchants": "Total Merchants",
-    "fromLastMonth": "From Last Month"
+    "fromLastMonth": "From Last Month",
+    "userNotVerified": "The user isn't verified yet , wait for admin approval",
+    "welcomeBack": "Welcome back",
+    "dashboardWelcomeMessage": "Here's a quick overview of your account activity and recent invoices.",
+    "merchantDashboardWelcomeMessage": "Here's a quick overview of your merchant account activity and recent invoices.",
+    "completedPayments": "Completed Payments",
+    "pendingPayments": "Pending Payments",
+    "completedInvoices": "Completed Invoices",
+    "pendingInvoices": "Pending Invoices",
+    "totalRevenue": "Total Revenue",
+    "recentActivity": "Recent Activity",
+    "viewAllInvoices": "View All Invoices",
+    "noInvoicesYet": "No invoices yet!",
+    "noInvoicesDescription": "Start by adding invoices for your clients or submitting a complaint.",
+    "quickActions": "Quick Actions",
+    "viewInvoices": "View Invoices",
+    "submitComplaint": "Submit a Complaint"
 }

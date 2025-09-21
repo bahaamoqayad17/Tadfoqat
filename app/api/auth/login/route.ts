@@ -30,6 +30,13 @@ export async function POST(request: NextRequest) {
     });
   }
 
+  if (!user.isVerified) {
+    return NextResponse.json({
+      status: false,
+      error: "userNotVerified",
+    });
+  }
+
   await User.updateOne({ _id: user._id }, { $set: { lastActive: new Date() } });
 
   // Create a shorter session token with minimal data

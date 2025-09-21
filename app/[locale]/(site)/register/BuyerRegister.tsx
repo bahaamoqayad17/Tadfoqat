@@ -103,13 +103,13 @@ export default function BuyerRegister() {
       if (data.status) {
         toast.success(t("registrationSuccess"));
         // Redirect based on user role
-        if (data.user.role === "admin") {
-          router.push("/admin");
-        } else if (data.user.role === "merchant") {
-          router.push("/merchant");
-        } else {
-          router.push("/client");
-        }
+        // if (data.user.role === "admin") {
+        //   router.push("/admin");
+        // } else if (data.user.role === "merchant") {
+        //   router.push("/merchant");
+        // } else {
+        //   router.push("/client");
+        // }
       } else {
         toast.error(t(data.error) || t("registrationFailed"));
       }

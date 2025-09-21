@@ -1,4 +1,5 @@
 import mongoose, { InferSchemaType } from "mongoose";
+import { UserType } from "./User";
 
 const invoiceSchema = new mongoose.Schema(
   {
@@ -50,6 +51,8 @@ const invoiceSchema = new mongoose.Schema(
 
 export type InvoiceType = Omit<InferSchemaType<typeof invoiceSchema>, ""> & {
   _id: mongoose.Types.ObjectId | string;
+  client: UserType | mongoose.Types.ObjectId | string;
+  merchant: UserType | mongoose.Types.ObjectId | string;
 };
 
 const Invoice =

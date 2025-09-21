@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/select";
 import { useTranslations } from "next-intl";
 
-export const description = "An interactive pie chart";
+export const description = "A Chart For Clients and Merchants";
 
 const desktopData = [
   { month: "january", desktop: 186, fill: "var(--color-january)" },

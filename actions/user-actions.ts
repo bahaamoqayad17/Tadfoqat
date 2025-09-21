@@ -2,7 +2,8 @@
 
 import { connectToDatabase } from "@/lib/mongo";
 import User from "@/models/User";
-import { isAuthenticated, getUserRole } from "@/lib/cookie";
+import { isAuthenticated, getUserRole, getUserFromCookie } from "@/lib/cookie";
+import Wallet from "@/models/Wallet";
 
 export async function getClients() {
   //   const role = await getUserRole();
@@ -50,6 +51,35 @@ export async function getEmployees() {
       status: false,
       error: "Internal server error",
       data: [],
+    };
+  }
+}
+
+export async function getUserWallet() {
+  const { user } = await getUserFromCookie();
+  if (!user) {
+    return {
+      status: false,
+      error: "Unauthorized",
+      data: {},
+    };
+  }
+
+  try {
+    await connectToDatabase();
+    const wallet = await Wallet.findOne({ user: user.id })
+      .populate("user")
+      .lean();
+    return {
+      status: true,
+      data: wallet,
+    };
+  } catch (error) {
+    console.error("Error getting user wallet:", error);
+    return {
+      status: false,
+      error: "Internal server error",
+      data: {},
     };
   }
 }

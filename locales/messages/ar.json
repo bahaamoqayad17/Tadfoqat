@@ -182,5 +182,21 @@
     "totalInvoices": "إجمالي الفواتير",
     "totalPayments": "إجمالي المدفوعات",
     "totalmerchants": "إجمالي التجار",
-    "fromLastMonth": "من الشهر الماضي"
+    "fromLastMonth": "من الشهر الماضي",
+    "userNotVerified": "المستخدم ليس معتمد بعد , انتظر حتى يتم التوثيق",
+    "welcomeBack": "مرحباً بعودتك",
+    "dashboardWelcomeMessage": "إليك نظرة سريعة على نشاط حسابك والفواتير الأخيرة.",
+    "merchantDashboardWelcomeMessage": "إليك نظرة سريعة على نشاط حسابك التجاري والفواتير الأخيرة.",
+    "completedPayments": "المدفوعات المكتملة",
+    "pendingPayments": "المدفوعات المعلقة",
+    "completedInvoices": "الفواتير المكتملة",
+    "pendingInvoices": "الفواتير المعلقة",
+    "totalRevenue": "إجمالي الإيرادات",
+    "recentActivity": "النشاط الأخير",
+    "viewAllInvoices": "عرض جميع الفواتير",
+    "noInvoicesYet": "لا توجد فواتير بعد!",
+    "noInvoicesDescription": "ابدأ بإضافة فواتير لعملائك أو إرسال شكوى.",
+    "quickActions": "الإجراءات السريعة",
+    "viewInvoices": "عرض الفواتير",
+    "submitComplaint": "إرسال شكوى"
 }

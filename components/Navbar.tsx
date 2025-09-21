@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, User } from "lucide-react";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -21,6 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { getUserFromCookie } from "@/lib/cookie";
 
 export default function Navbar() {
   const t = useTranslations();
@@ -28,6 +29,7 @@ export default function Navbar() {
   const locale = useLocale();
   const [isComplainModalOpen, setIsComplainModalOpen] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  const [user, setUser] = useState(null);
 
   const navigationItems = [
     { key: "aboutUs", href: "/about", isModal: false },
@@ -36,6 +38,14 @@ export default function Navbar() {
     { key: "ourClients", href: "/clients", isModal: false },
     { key: "complaints", href: "/complaints", isModal: true },
   ];
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { user } = await getUserFromCookie();
+      setUser(user);
+    };
+    checkAuth();
+  }, []);
 
   const handleNavigationClick = (item: any, e: React.MouseEvent) => {
     if (item.key === "complaints") {
@@ -118,15 +128,35 @@ export default function Navbar() {
               <SelectItem value="ar">العربية</SelectItem>
             </SelectContent>
           </Select>
-          <Button
-            className="bg-gradient-to-t from-[#153885] to-primary text-white rounded-lg font-medium text-sm lg:text-base transition-all duration-200 shadow-md hover:shadow-lg"
-            size="lg"
-            onClick={() => router.push("/login")}
-          >
-            <ArrowRight className="h-4 w-4" />
-
-            {t("joinNow")}
-          </Button>
+          {user !== null ? (
+            // a profile image circle user
+            <div
+              className="flex items-center space-x-2 cursor-pointer"
+              onClick={() => {
+                if (user.role === "admin") {
+                  router.push("/admin");
+                } else if (user.role === "merchant") {
+                  router.push("/merchant");
+                } else {
+                  router.push("/client");
+                }
+              }}
+            >
+              <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
+                <User className="h-6 w-6 text-gray-500" />
+              </div>
+              <p className="text-gray-500">{user?.name}</p>
+            </div>
+          ) : (
+            <Button
+              className="bg-gradient-to-t from-[#153885] to-primary text-white rounded-lg font-medium text-sm lg:text-base transition-all duration-200 shadow-md hover:shadow-lg"
+              size="lg"
+              onClick={() => router.push("/login")}
+            >
+              <ArrowRight className="h-4 w-4" />
+              {t("joinNow")}
+            </Button>
+          )}
         </div>
       </div>
 
