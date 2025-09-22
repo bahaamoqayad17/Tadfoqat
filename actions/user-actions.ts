@@ -19,7 +19,7 @@ export async function getClients() {
   try {
     await connectToDatabase();
 
-    const clients = await User.find({ role: "client" })
+    const clients = await User.find({ role: { $in: ["client", "merchant"] } })
       .select("-password")
       .sort("-createdAt")
       .lean();
