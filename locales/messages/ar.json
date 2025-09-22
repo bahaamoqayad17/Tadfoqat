@@ -2,7 +2,7 @@
     "home": "الرئيسية",
     "joinNow": "انضمام الان",
     "complaints": "شكاوي",
-    "ourClients": "عملاؤنا",
+    "ourClients": "شركاء النجاح",
     "contactUs": "تواصل معنا",
     "howWeWork": "كيف نعمل",
     "aboutUs": "من نحن",
@@ -212,5 +212,8 @@
     "unauthorized": "غير مصرح لك بالدخول",
     "clientNotFound": "العميل غير موجود",
     "internalServerError": "خطأ في الخادم",
-    "totalBlockedAmount": "الاموال المتعثرة بالسداد"
+    "totalBlockedAmount": "الاموال المتعثرة بالسداد",
+    "idNumberTooShort": "رقم الهوية الوطنية يجب أن يكون 10 أرقام على الأقل",
+    "alreadyTaken": "البريد الإلكتروني أو رقم الهاتف أو رقم الهوية الوطنية أو رقم السجل التجاري مستخدم بالفعل",
+    "commercialNumberTooShort": "رقم السجل التجاري يجب أن يكون 10 أرقام على الأقل"
 }

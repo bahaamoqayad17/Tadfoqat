@@ -86,6 +86,21 @@ export default function MerchantRegister() {
       return;
     }
 
+    if (formData.id_number.length < 10) {
+      toast.error(t("idNumberTooShort"));
+      return;
+    }
+
+    if (formData.mobile_number.length < 9) {
+      toast.error(t("phoneNumberTooShort"));
+      return;
+    }
+
+    if (formData.commercial_number.length < 10) {
+      toast.error(t("commercialNumberTooShort"));
+      return;
+    }
+
     setIsLoading(true);
 
     try {

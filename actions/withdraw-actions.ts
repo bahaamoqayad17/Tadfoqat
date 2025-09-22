@@ -8,6 +8,7 @@ export async function getWithdrawRequests() {
     await connectToDatabase();
     const withdrawRequests = await WithdrawRequest.find()
       .populate("user")
+      .sort("-createdAt")
       .lean();
     return {
       status: true,

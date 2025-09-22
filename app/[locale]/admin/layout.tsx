@@ -107,7 +107,7 @@ export default function DashboardLayout({
   );
 
   return (
-    <html>
+    <html dir={locale === "ar" ? "rtl" : "ltr"}>
       <body>
         <div className="flex h-screen bg-gray-50">
           {/* Mobile Menu Overlay */}

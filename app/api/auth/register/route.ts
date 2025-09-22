@@ -42,12 +42,16 @@ export async function POST(request: NextRequest) {
 
     // Check if user exists
     const existingUser = await User.findOne({
-      email,
+      $or: [{ email }, { mobile_number }, { id_number }, { commercial_number }],
     });
 
     if (existingUser) {
       return NextResponse.json(
-        { status: false, error: "Email already taken", field: "email" },
+        {
+          status: false,
+          error: "alreadyTaken",
+          field: email || mobile_number || id_number || commercial_number,
+        },
         { status: 409 }
       );
     }

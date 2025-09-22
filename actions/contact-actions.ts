@@ -1,4 +1,5 @@
 "use server";
+
 import { connectToDatabase } from "@/lib/mongo";
 import Contact from "@/models/Contact";
 
@@ -30,7 +31,7 @@ export async function createContact(
 export async function getContacts() {
   try {
     await connectToDatabase();
-    const contacts = await Contact.find().lean();
+    const contacts = await Contact.find().sort("-createdAt").lean();
     return contacts;
   } catch (error) {
     console.error("Error getting contacts:", error);

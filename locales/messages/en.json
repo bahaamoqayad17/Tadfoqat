@@ -212,5 +212,8 @@
     "unauthorized": "Unauthorized",
     "clientNotFound": "Client not found",
     "internalServerError": "Internal server error",
-    "totalBlockedAmount": "Total Blocked Amount"
+    "totalBlockedAmount": "Total Blocked Amount",
+    "idNumberTooShort": "National ID number must be at least 10 digits",
+    "alreadyTaken": "Email, phone number, national ID number, or commercial registration number already taken",
+    "commercialNumberTooShort": "Commercial registration number must be at least 10 digits"
 }

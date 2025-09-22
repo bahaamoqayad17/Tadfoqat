@@ -21,6 +21,7 @@ export async function getClients() {
 
     const clients = await User.find({ role: "client" })
       .select("-password")
+      .sort("-createdAt")
       .lean();
 
     return {
@@ -40,7 +41,10 @@ export async function getClients() {
 export async function getEmployees() {
   try {
     await connectToDatabase();
-    const admin = await User.find({ role: "admin" }).select("-password").lean();
+    const admin = await User.find({ role: "admin" })
+      .select("-password")
+      .sort("-createdAt")
+      .lean();
     return {
       status: true,
       data: admin,

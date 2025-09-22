@@ -11,6 +11,7 @@ export async function getInvoices() {
     const invoices = await Invoice.find()
       .populate("client")
       .populate("merchant")
+      .sort("-createdAt")
       .lean();
     return {
       status: true,
@@ -41,6 +42,7 @@ export async function getInvoicesByClientId() {
     const invoices = await Invoice.find({ client: user.id })
       .populate("client")
       .populate("merchant")
+      .sort("-createdAt")
       .lean();
     return {
       status: true,
@@ -71,6 +73,7 @@ export async function getInvoicesByMerchantId() {
     const invoices = await Invoice.find({ client: user.id })
       .populate("client")
       .populate("merchant")
+      .sort("-createdAt")
       .lean();
     return {
       status: true,
